@@ -68,6 +68,11 @@ public class ${JavaModName} implements ModInitializer {
 		<#if w.hasVariablesOfScope("GLOBAL_WORLD") || w.hasVariablesOfScope("GLOBAL_MAP")>${JavaModName}Variables.SyncJoin();</#if>
 		<#if w.hasVariablesOfScope("GLOBAL_WORLD") || w.hasVariablesOfScope("GLOBAL_MAP")>${JavaModName}Variables.SyncChangeWorld();</#if>
 		<#if settings.getMCreatorDependencies().contains("geckolib")>GeckoLib.initialize();</#if>
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+			if (handler.getPlayer().getExtraCustomData().getCompound("PlayerPersisted").isEmpty()) {
+				handler.getPlayer().getExtraCustomData().put("PlayerPersisted", new CompoundTag());
+			}
+		});
 	}
 }
 <#-- @formatter:on -->
